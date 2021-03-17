@@ -1,9 +1,13 @@
 package a
 
-func f() (n int) {
+func f1() (n int) {
 	return // want "should not use naked return"
 }
 
-func g() (n int) {
+func f2() (n int) {
 	return 10 // OK
+}
+
+func f3() {
+	return // OK
 }
