@@ -43,3 +43,8 @@ func f10() (n int, _ <-chan int) {
 func f11() (n int, _ [1]int) {
 	return // want "should not use naked return"
 }
+
+type T struct{N int}
+func f12() (n int, _ T) {
+	return // want "should not use naked return"
+}
