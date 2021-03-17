@@ -44,7 +44,7 @@ func run(pass *analysis.Pass) (interface{}, error) {
 
 func checkBody(pass *analysis.Pass, body *ast.BlockStmt, funType types.Type) {
 	sig, _ := funType.(*types.Signature)
-	if sig == nil || sig.Results().Len() == 0 {
+	if body == nil || sig == nil || sig.Results().Len() == 0 {
 		return
 	}
 
