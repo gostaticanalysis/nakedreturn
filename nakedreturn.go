@@ -3,6 +3,7 @@ package nakedreturn
 import (
 	"go/ast"
 	"go/types"
+	"strings"
 
 	"golang.org/x/tools/go/analysis"
 	"golang.org/x/tools/go/analysis/passes/inspect"
@@ -53,12 +54,23 @@ func checkBody(pass *analysis.Pass, body *ast.BlockStmt, funType types.Type) {
 			continue
 		}
 
+		rets := make([]string, sig.Results().Len())
+		for i := range rets {
+			retv := sig.Results().At(i)
+			name := retv.Name()
+			if name == "_" {
+				rets[i] = zeroValue(retv.Type())
+			} else {
+				rets[i] = name
+			}
+		}
+
 		fix := analysis.SuggestedFix{
 			Message: "add explicit return values",
 			TextEdits: []analysis.TextEdit{{
 				Pos:     ret.Pos(),
 				End:     ret.End(),
-				NewText: []byte(sig.Results().String()),
+				NewText: []byte("return " + strings.Join(rets, ", ")),
 			}},
 		}
 
@@ -68,5 +80,28 @@ func checkBody(pass *analysis.Pass, body *ast.BlockStmt, funType types.Type) {
 			Message:        "should not use naked return",
 			SuggestedFixes: []analysis.SuggestedFix{fix},
 		})
+	}
+}
+
+func zeroValue(typ types.Type) string {
+	switch utyp := typ.Underlying().(type) {
+	case *types.Basic:
+		switch {
+		case utyp.Info() & types.IsNumeric != 0:
+			return "0"
+		case utyp.Info() & types.IsString != 0:
+			return `""`
+		default:
+			return "false"
+		}
+	case *types.Struct, *types.Array:
+		switch typ := typ.(type) {
+		case *types.Named:
+			return typ.Obj().Name() + "{}"
+		default:
+			return typ.String() + "{}"
+		}
+	default:
+		return "nil"
 	}
 }
