@@ -1,6 +1,6 @@
 module github.com/gostaticanalysis/nakedreturn
 
-go 1.15
+go 1.16
 
 require (
 	github.com/gostaticanalysis/testutil v0.3.1
