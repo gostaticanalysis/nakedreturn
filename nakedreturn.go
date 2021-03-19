@@ -87,9 +87,9 @@ func zeroValue(typ types.Type) string {
 	switch utyp := typ.Underlying().(type) {
 	case *types.Basic:
 		switch {
-		case utyp.Info() & types.IsNumeric != 0:
+		case utyp.Info()&types.IsNumeric != 0:
 			return "0"
-		case utyp.Info() & types.IsString != 0:
+		case utyp.Info()&types.IsString != 0:
 			return `""`
 		default:
 			return "false"
