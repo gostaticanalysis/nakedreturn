@@ -1,8 +1,8 @@
-# nakedretrun
+# nakedreturn
 
 [![pkg.go.dev][gopkg-badge]][gopkg]
 
-`nakedretrun` finds naked returns.
+`nakedreturn` finds naked returns.
 
 ```go
 package a
@@ -19,6 +19,6 @@ $ go install github.com/gostaticanalysis/nakedreturn/cmd/fixnakedreturn
 $ fixnakedreturn ./...
 ```
 <!-- links -->
-[gopkg]: https://pkg.go.dev/github.com/gostaticanalysis/nakedretrun
-[gopkg-badge]: https://pkg.go.dev/badge/github.com/gostaticanalysis/nakedretrun?status.svg
+[gopkg]: https://pkg.go.dev/github.com/gostaticanalysis/nakedreturn
+[gopkg-badge]: https://pkg.go.dev/badge/github.com/gostaticanalysis/nakedreturn?status.svg
 
