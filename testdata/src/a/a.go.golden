@@ -1,0 +1,51 @@
+package a
+
+func f1() (n int) {
+	return n // want "should not use naked return"
+}
+
+func f2() (n int) {
+	return 10 // OK
+}
+
+func f3() {
+	return // OK
+}
+
+func f4() (n int, _ int) {
+	return n, 0 // want "should not use naked return"
+}
+
+func f5() (n int, _ struct{}) {
+	return n, struct{}{} // want "should not use naked return"
+}
+
+func f6() (n int, _ string) {
+	return n, "" // want "should not use naked return"
+}
+
+func f7() (n int, _ interface{}) {
+	return n, nil // want "should not use naked return"
+}
+
+func f8() (n int, _ error) {
+	return n, nil // want "should not use naked return"
+}
+
+func f9() (n int, _ *int) {
+	return n, nil // want "should not use naked return"
+}
+
+func f10() (n int, _ <-chan int) {
+	return n, nil // want "should not use naked return"
+}
+
+func f11() (n int, _ [1]int) {
+	return n, [1]int{} // want "should not use naked return"
+}
+
+type T struct{ N int }
+
+func f12() (n int, _ T) {
+	return n, T{} // want "should not use naked return"
+}
